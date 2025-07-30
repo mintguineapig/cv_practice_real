@@ -214,4 +214,87 @@ python main.py \
 
 * CIFAR inputs (32×32) were forced via resizing.
 
+## Result
+1. CNN based model vs Transformer based model
+   
+  1.1. Performance    
+  <img width="439" height="914" alt="image" src="https://github.com/user-attachments/assets/3f5f681e-dcce-452b-8d93-e1bc37c3395d" />
+
+  파란색/초록색(푸른계열)이 각각 ViTsmall, naflexvit (Transformer 기반) 로 성능이 매우 나빴음.   
+  주황색/빨간색/분홍색(붉은 계열) 이 각각 efficientnet, ResNet, ConvNeXt (CNN 기반) 으로 성능이 비교적 우수했음.   
+  전통적인 resnet, efficientnet 이 convnext 보다 성능이 좋았음.    
+  convnext 의 파라미터가 많아 overfitting 되었을 것으로 추정.    
+  
+  
+
+  
+  
+2. Augmentation method - weak vs default   
+  2.1. Performance
+   
+    2.1.1. Resnet18 (11M)
+    <img width="602" height="315" alt="image" src="https://github.com/user-attachments/assets/a8252f9b-d9ff-4609-8ae5-2eb4b8438a56" />  
+    default 에서 오버피팅, 최종 성능이 weak 에서 우수  
+    weak 성능 good: 데이터가 그나마 좀 더 복잡해졌기 떄문이라고 추정
+    default 성능 bad: 데이터의 다양성이 부족했기 때문이라고 추정
+      
+    2.1.2. efficientnet (5.3M)
+    <img width="592" height="311" alt="image" src="https://github.com/user-attachments/assets/5e8e5f88-1747-407c-b0ed-0ffeabb48020" />
+    파라미터가 resnet 보다 적음
+    dafault 와 weak 에서 최종성능은 유사했으니, default 에서 loss 가 튀는 현상 발생  
+    loss가 튀는 이유?
+   
+    2.1.3. vit_small_patch16_32
+    <img width="607" height="312" alt="image" src="https://github.com/user-attachments/assets/fe2662c5-bb53-4458-9bbf-711611d5cc90" />
+    최악의 결과 (당연)   
+    default와 weak에서 모두 loss가 점차 감소하는 경향은 보였지만,  
+    default 는 끝까지 수렴하지 못하고, 최종성능도 더 낮음  
+    epoch 을 증가시키면 둘 다 수렴할 가능성 존재
+   해당 모델이 patch size = 16 이기 때문에 2*2 토큰으로 학습하기 때문에 충분한 정보를 학습X (너무 적은 정보로 학습)  
+    patch size를 줄여서 실험 재수행 필요
+   
+    2.1.4. naflexvit
+    <img width="599" height="311" alt="image" src="https://github.com/user-attachments/assets/64ee1bcd-0cac-482b-82e7-6c0a699e040a" />  
+
+    weak은 loss는 감소하는데, 정확도는 0.5 를 간신히 넘었으며,   
+    default 는 loss 가 다시 점점 커지고, 정확도도 0.55로 수렴함.
+    성능이 좋지 않음은 분명하나, 
+    naflexvit 가 데이터 사이즈에 유연하긴 하나, 그것은 세로/가로 비율과 다양한 크기의 데이터셋에서 유연하게 작용하는 것이라 본 데이터(32*32 통일) 에서는 큰 장점을 발휘하지 못함.
+    남은 차이점은 (1) 하이퍼파라미터, (2) 위치 임베딩 인데, 이 점이 미세한 성능 향상을 야기했을 것이라 예상     
+
+       
+    2.1.5. ConvNeXt (88M)
+    <img width="594" height="316" alt="image" src="https://github.com/user-attachments/assets/5c90f06b-e075-4186-9e81-3360fda36e16" />  
+    수렴은 하였으나 오버피팅. 특히 증강을 하지 않은 default 에서 더 심함. 
+    모델의 용량이 큰 것에 비해 데이터셋이 너무 저해상도로 작기 때문일 것이라고 추정.
+    
+    
+    
+
+    
+
+    
+
+
+    
+
+## Problem -> Planned Experiments
+
+1. augmentation 방법을 strong 으로 실행시킨 모델의 train_loss 가 감소하는 중에 학습이 중단됨    
+-> epoch을 epoches 를 200으로 실험 실행
+
+2. resnet18, efficientnet b0 와 같이 기본적인 모델에서만 실행시켜 파라미터 크기에 따른 성능을 충분히 비교하지 못함    
+-> resnet50, efficientnetv2 와 같이 더 크고 개선된 모델 사용
+
+3. 앙상블 했을 때 성능 개선이 궁금했으나 실행하지 못함    
+-> 코드를 다시 작성하여 앙상블 시도
+
+4. 데이터셋을 CIFAR10으로 제한하여 저해상도 이미지 처리에 대한 insight 부족    
+-> CIFAR100, TinyImageNet dataset 을 실행하며 공통점, 차이점을 비교하며 insight 도출
+
+5. 최신 모델은 고해상도 이미지에 특화되어 있어 성능이 충분히 나오지 않음    
+-> 고해상도 이미지 데이터셋 Open Images V6, Places365, COCO(Common Objects in Context) 이용해 고해상도 이미지와 저해상도 이미지 처리에 어떠한 모델 특성이 유리한지 확인 (복잡한 모델이 고해상도에서 좋은 성능이 나오는지 확인!)
+
+6. 오버피팅을 해결해보지 못함    
+-> 오버피팅이 발생하는 경우가 있었고, 이러한 문제를 해결하기 위한 (1) Early stopping, (2) Regularization / Dropout 등 정규화 기법을 시도하여 각 모델별 최적 파라미터에 대한 실험 수행
 
