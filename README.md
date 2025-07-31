@@ -219,6 +219,7 @@ python main.py \
    
   1.1. Performance    
   <img width="439" height="914" alt="image" src="https://github.com/user-attachments/assets/3f5f681e-dcce-452b-8d93-e1bc37c3395d" />
+  
 
   파란색/초록색(푸른계열)이 각각 ViTsmall, naflexvit (Transformer 기반) 로 성능이 매우 나빴음.   
   주황색/빨간색/분홍색(붉은 계열) 이 각각 efficientnet, ResNet, ConvNeXt (CNN 기반) 으로 성능이 비교적 우수했음.   
@@ -234,7 +235,8 @@ python main.py \
    
     2.1.1. Resnet18 (11M)
    
-    <img width="602" height="315" alt="image" src="https://github.com/user-attachments/assets/a8252f9b-d9ff-4609-8ae5-2eb4b8438a56" />  
+    <img width="602" height="315" alt="image" src="https://github.com/user-attachments/assets/a8252f9b-d9ff-4609-8ae5-2eb4b8438a56" />
+   
     default 에서 오버피팅, 최종 성능이 weak 에서 우수  
     weak 성능 good: 데이터가 그나마 좀 더 복잡해졌기 떄문이라고 추정
     default 성능 bad: 데이터의 다양성이 부족했기 때문이라고 추정
@@ -242,6 +244,7 @@ python main.py \
     2.1.2. efficientnet (5.3M)
    
     <img width="592" height="311" alt="image" src="https://github.com/user-attachments/assets/5e8e5f88-1747-407c-b0ed-0ffeabb48020" />
+    
     파라미터가 resnet 보다 적음
     dafault 와 weak 에서 최종성능은 유사했으니, default 에서 loss 가 튀는 현상 발생  
     loss가 튀는 이유?
@@ -249,6 +252,7 @@ python main.py \
     2.1.3. vit_small_patch16_32
    
     <img width="607" height="312" alt="image" src="https://github.com/user-attachments/assets/fe2662c5-bb53-4458-9bbf-711611d5cc90" />
+    
     최악의 결과 (당연)   
     default와 weak에서 모두 loss가 점차 감소하는 경향은 보였지만,  
     default 는 끝까지 수렴하지 못하고, 최종성능도 더 낮음  
@@ -258,7 +262,8 @@ python main.py \
    
     2.1.4. naflexvit
    
-    <img width="599" height="311" alt="image" src="https://github.com/user-attachments/assets/64ee1bcd-0cac-482b-82e7-6c0a699e040a" />  
+    <img width="599" height="311" alt="image" src="https://github.com/user-attachments/assets/64ee1bcd-0cac-482b-82e7-6c0a699e040a" />
+   
 
     weak은 loss는 감소하는데, 정확도는 0.5 를 간신히 넘었으며,   
     default 는 loss 가 다시 점점 커지고, 정확도도 0.55로 수렴함.
@@ -269,7 +274,8 @@ python main.py \
        
     2.1.5. ConvNeXt (88M)
    
-    <img width="594" height="316" alt="image" src="https://github.com/user-attachments/assets/5c90f06b-e075-4186-9e81-3360fda36e16" />  
+    <img width="594" height="316" alt="image" src="https://github.com/user-attachments/assets/5c90f06b-e075-4186-9e81-3360fda36e16" />
+   
     수렴은 하였으나 오버피팅. 특히 증강을 하지 않은 default 에서 더 심함. 
     모델의 용량이 큰 것에 비해 데이터셋이 너무 저해상도로 작기 때문일 것이라고 추정.
     
