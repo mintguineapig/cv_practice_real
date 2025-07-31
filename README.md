@@ -291,10 +291,13 @@ python main.py \
 
 4. 데이터셋을 CIFAR10으로 제한하여 저해상도 이미지 처리에 대한 insight 부족    
 -> CIFAR100, TinyImageNet dataset 을 실행하며 공통점, 차이점을 비교하며 insight 도출
+   <img width="894" height="685" alt="image" src="https://github.com/user-attachments/assets/c5534e50-0690-45cf-8c8a-5218f24155ad" />
+   오류 수정 예정..
 
-5. 최신 모델은 고해상도 이미지에 특화되어 있어 성능이 충분히 나오지 않음    
+
+6. 최신 모델은 고해상도 이미지에 특화되어 있어 성능이 충분히 나오지 않음    
 -> 고해상도 이미지 데이터셋 Open Images V6, Places365, COCO(Common Objects in Context) 이용해 고해상도 이미지와 저해상도 이미지 처리에 어떠한 모델 특성이 유리한지 확인 (복잡한 모델이 고해상도에서 좋은 성능이 나오는지 확인!)
 
-6. 오버피팅을 해결해보지 못함    
+7. 오버피팅을 해결해보지 못함    
 -> 오버피팅이 발생하는 경우가 있었고, 이러한 문제를 해결하기 위한 (1) Early stopping, (2) Regularization / Dropout 등 정규화 기법을 시도하여 각 모델별 최적 파라미터에 대한 실험 수행
 
