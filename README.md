@@ -44,16 +44,6 @@ pip install \
   pydantic==1.10.2
 ```
 
-## **Docker**
-```bash
-docker run --gpus all -it -h cv_practice_gpu \
-  -p 1290:1290 \
-  --ipc=host \
-  --name cv_practice_gpu \
-  -v /m2:/projects \
-  nvcr.io/nvidia/pytorch:22.12-py3 bash
-```
-
 
 
 ## **Usage**
